@@ -1,0 +1,9 @@
+*~
+*.DS_Store
+api_keys.json
+input_images*
+__pycache__
+output
+*.pyc
+venv
+tags.json
