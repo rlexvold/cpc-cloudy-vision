@@ -19,6 +19,8 @@ import vendors.imagga
 import vendors.eyeem
 
 SETTINGS = None
+
+
 def settings(name):
     """Fetch a settings parameter."""
 
@@ -28,21 +30,18 @@ def settings(name):
 
         # Change this dict to suit your taste.
         SETTINGS = {
-            'api_keys_filepath' : './api_keys.json',
-            'input_images_dir' : 'input_images',
-            'output_dir' : 'output',
-            'static_dir' : 'static',
-            'output_image_height' : 200,
-            'vendors' : {
-                'google' : vendors.google,
-                'msft' : vendors.microsoft,
-                'clarifai' : vendors.clarifai_,
-                'ibm' : vendors.ibm,
-                'threadgenius' : vendors.threadgenius_,
-                'imagga' : vendors.imagga,
-                'cloudsight' : vendors.cloudsight_,
-                'rekognition' : vendors.rekognition,
-                'eyeem' : vendors.eyeem
+            'api_keys_filepath': './api_keys.json',
+            'input_images_dir': 'input_images',
+            'output_dir': 'output',
+            'static_dir': 'static',
+            'output_image_height': 200,
+            'vendors': {
+                'google': vendors.google,
+                'msft': vendors.microsoft,
+                'clarifai': vendors.clarifai_,
+                'ibm': vendors.ibm,
+                'imagga': vendors.imagga,
+                'rekognition': vendors.rekognition
             },
             'resize': True,
             'statistics': [
@@ -135,7 +134,6 @@ def find_matching_tags(tags, standardized_result):
 
 
 def process_all_images():
-
     image_results = []
 
     # Create the output directory
@@ -164,16 +162,16 @@ def process_all_images():
 
         # Create an output object for the image
         image_result = {
-            'input_image_filepath' : filepath,
-            'output_image_filepath' : filename,
-            'vendors' : [],
-            'image_tags' : image_tags,
+            'input_image_filepath': filepath,
+            'output_image_filepath': filename,
+            'vendors': [],
+            'image_tags': image_tags,
         }
         image_results.append(image_result)
 
         # If there's no output file, then resize or copy the input file over
         output_image_filepath = os.path.join(settings('output_dir'), filename)
-        if not(os.path.isfile(output_image_filepath)):
+        if not (os.path.isfile(output_image_filepath)):
             log_status(filepath, "", "writing output image in %s" % output_image_filepath)
             if settings('resize'):
                 resize_and_save(filepath, output_image_filepath)
@@ -233,15 +231,15 @@ def process_all_images():
                         matching_confidence = sum([t[1] for t in matching_tags]) / len(matching_tags)
 
             image_result['vendors'].append({
-                'api_result' : api_result,
-                'vendor_name' : vendor_name,
-                'standardized_result' : standardized_result,
-                'output_json_filename' : output_json_filename,
-                'response_time' : api_result['response_time'],
-                'tags_count' : tags_count,
-                'matching_tags' : matching_tags,
-                'matching_tags_count' : len(matching_tags),
-                'matching_confidence' : matching_confidence,
+                'api_result': api_result,
+                'vendor_name': vendor_name,
+                'standardized_result': standardized_result,
+                'output_json_filename': output_json_filename,
+                'response_time': api_result['response_time'],
+                'tags_count': tags_count,
+                'matching_tags': matching_tags,
+                'matching_tags_count': len(matching_tags),
+                'matching_confidence': matching_confidence,
             })
 
     # Compute global statistics for each vendor
