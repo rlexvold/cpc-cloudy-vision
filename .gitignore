@@ -2,6 +2,7 @@
 *.DS_Store
 api_keys.json
 input_images*
+output*
 __pycache__
 output
 *.pyc
