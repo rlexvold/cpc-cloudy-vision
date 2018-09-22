@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "loopback",
+    "plugin:jest/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "env": {
+      "node": true,
+      "jest/globals": true,
+      "jasmine": true,
+      "jest": true
+    },
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": [
+    "jest"
+  ],
+  "rules": {
+    "comma-dangle": "off",
+    "max-len": "off",
+    "space-before-function-paren": "off",
+    "camelcase": "off",
+    "strict": "off",
+    "object-curly-spacing": "off",
+    "indent": [
+      "warn",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ]
+  }
+}

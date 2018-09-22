@@ -1,0 +1,21 @@
+{
+  "name": "cleanup",
+  "version": "0.0.74",
+  "main": "cleanup.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "command-line-args": "^5.0.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "license": "UNLICENSED",
+  "description": "user service"
+}
