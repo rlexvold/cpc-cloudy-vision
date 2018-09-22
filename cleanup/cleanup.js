@@ -21,27 +21,39 @@ const processors = new Map([
 let images = new Map();
 
 function ibm(input) {
-    return input.images[0].classifiers[0].classes.filter(con => (con.score * 100) >= options.threshold).map(con => con.class);
+    return input.images[0].classifiers[0].classes.filter(con => (con.score * 100) >= options.threshold).map((con) => {
+        return {confidence: con.score * 100, tag: con.class};
+    });
 }
 
 function google(input) {
-    return input.responses[0].labelAnnotations.filter(con => (con.score * 100) >= options.threshold).map(con => con.description);
+    return input.responses[0].labelAnnotations.filter(con => (con.score * 100) >= options.threshold).map((con) => {
+        return {confidence: con.score * 100, tag: con.description};
+    });
 }
 
 function clarifai(input) {
-    return input.outputs[0].data.concepts.filter(con => (con.value * 100) >= options.threshold).map(con => con.name);
+    return input.outputs[0].data.concepts.filter(con => (con.value * 100) >= options.threshold).map((con) => {
+        return {confidence: con.value * 100, tag: con.name};
+    });
 }
 
 function imagga(input) {
-    return input.results[0].tags.filter(con => con.confidence >= options.threshold).map(con => con.tag);
+    return input.results[0].tags.filter(con => con.confidence >= options.threshold).map((con) => {
+        return {confidence: con.confidence, tag: con.tag};
+    });
 }
 
 function msft(input) {
-    return input.tags.filter(con => (con.confidence * 100) >= options.threshold).map(con => con.name);
+    return input.tags.filter(con => (con.confidence * 100) >= options.threshold).map((con) => {
+        return {confidence: con.confidence * 100, tag: con.name};
+    });
 }
 
 function amazon(input) {
-    return input.Labels.filter(con => con.Confidence >= options.threshold).map(con => con.Name);
+    return input.Labels.filter(con => con.Confidence >= options.threshold).map((con) => {
+        return {confidence: con.Confidence, tag: con.Name};
+    });
 }
 
 function parseFileName(name) {
@@ -69,18 +81,13 @@ for (let file of jsonFiles) {
 }
 
 let fileOut = fs.createWriteStream(options.output, {autoClose: true});
-fileOut.write('Image');
-for (const key of processors.keys()) {
-    fileOut.write(',' + key);
-}
-fileOut.write('\n');
-
+fileOut.write('Image,Confidence,Tag,Provider,Points\n');
 for (const image of images) {
-    fileOut.write(image[0]);
     const outputs = image[1];
     for (const key of Object.keys(outputs)) {
         const output = outputs[key];
-        fileOut.write(',"' + output.join() + '"');
+        for (const tag of output) {
+            fileOut.write(`${image[0]},${tag.confidence},${tag.tag},${key}\n`);
+        }
     }
-    fileOut.write('\n');
 }
